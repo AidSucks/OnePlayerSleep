@@ -1,0 +1,64 @@
+#OnePlayerSleep Version 2.6 - by Aid
+
+#Determines whether or not the plugin is enabled
+enabled: true
+
+#Determines whether or not to change the weather when the player sleeps
+changes_weather: true
+
+#The amount of ticks it takes for a player to sleep
+#May now be set above 100 ticks!
+sleep_duration: 100
+
+
+
+#Stores every message that the plugin uses
+
+#Every message is now customizable with a couple key terms you can use within your messages
+#
+#Key Terms:
+#{player} - Displays the current player that has the run the command or has slept
+#{plugin} - Displays the name of the plugin "OnePlayerSleep" 
+#{enabled} - Displays the current enabled status of the plugin
+#{weather} - Displays the current status of whether or not the weather will change after sleeping
+#{duration} - Displays the current ticks that sleeping takes 
+
+#You can also use color codes now!
+#Just in case you don't want to bother looking them all up:
+#
+#Primary:              Secondary:
+#&0 - Black            &a - Green
+#&1 - Dark Blue        &b - Aqua
+#&2 - Dark Green       &c - Red
+#&3 - Dark Aqua        &d - Light Purple/Pink
+#&4 - Dark Red         &e - Yellow
+#&5 - Dark Purple      &f - White
+#&6 - Gold
+#&7 - Gray
+#&8 - Dark Gray
+#&9 - Blue
+#
+#Formatting:
+#&k - Obfuscated
+#&l - Bold
+#&m - Strike-through
+#&n - Underline
+#&o - Italics
+#&r - Reset
+
+messages:
+    error:
+        permission: "&cYou don't have permission to do this!"
+        toomanyargs: "&cToo many arguments!"
+        notenoughargs: "&cNot enough arguments!"
+        alreadyasleep: "&cSomeone is already asleep."
+        invalidtype: "&cInvalid data type!"
+    success:
+        slept: "&a{player} slept!"
+        duration: "&aDuration is currently set to: &5{duration} &aticks"
+        enabled: "&aPlugin enabled is currently set to: &5{enabled}"
+        weather: "&aWeather change is currently set to: &5{weather}"
+        reload: "&a{plugin} data.yml successfully reloaded!"
+        setduration: "&aSleep duration set to: &5{duration} &aticks"
+        setenabled: "&aPlugin enabled set to: &5{enabled}"
+        setweather: "&aWeather change set to: &5{weather}"
