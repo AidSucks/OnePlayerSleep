@@ -74,6 +74,7 @@ public class SleepManager {
 					world.setWeatherDuration(0);
 				}
 				
+				OpsPlugin.getCommandManager().setCurrentSender(bukkitPlayer);
 				OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
 				taskCompleted = true;
 			}
@@ -81,8 +82,15 @@ public class SleepManager {
 		}.runTaskLater(this.pl, duration);
 		
 		//Starts the timer that keeps a player in bed until the previous task is complete
+		this.keepPlayerAsleep();
+		
+		return;
+	}
+	
+	public void keepPlayerAsleep() {
+		
 		this.taskTimer = new BukkitRunnable() {
-			
+	
 			public void run() {
 				setSleepTicks(0);
 				if(taskCompleted) {
@@ -92,7 +100,6 @@ public class SleepManager {
 			
 		}.runTaskTimer(this.pl, 0, 1);
 		
-		return;
 	}
 	
 	//Attempts to interrupt the sleep cycle and stop its exection
