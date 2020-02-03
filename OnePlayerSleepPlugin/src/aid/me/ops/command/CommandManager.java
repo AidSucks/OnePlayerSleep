@@ -2,36 +2,24 @@ package aid.me.ops.command;
 
 import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.util.MessageManager;
+import aid.me.ops.util.OpsPlayerData;
 
 public class CommandManager implements CommandExecutor{
 
 	private ArrayList<OpsCommand> commands;
-	private CommandSender currentSender;
 	private MessageManager MSG = OpsPlugin.getMessageManager();
+	private OpsPlayerData pData = OpsPlugin.getPlayerData();
 
 	public CommandManager() {
 		if(commands == null) {
 			commands = new ArrayList<OpsCommand>();
 		}
-	}
-	
-	public CommandSender getCurrentSender() {
-		if(currentSender == null) {
-			return Bukkit.getConsoleSender();
-		}
-		return this.currentSender;
-	}
-	
-	public void setCurrentSender(CommandSender sender) {
-		this.currentSender = sender;
-		return;
 	}
 	
 	/* This is now handled in the PluginMain class
@@ -58,7 +46,7 @@ public class CommandManager implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		this.currentSender = sender;
+		pData.setCurrentPlayer(sender);
 		
 		boolean isOpsCmd = false;
 		OpsCommand command = null;
@@ -86,11 +74,11 @@ public class CommandManager implements CommandExecutor{
 		if(!isOpsCmd) return true;
 		
 		if(!sender.hasPermission(command.getPermission())) {
-			MSG.sendMessage("messages.error.permission", sender);
+			MSG.sendMessage("messages.error.permission");
 			return true;
 		}
 		else if(args.length > command.maxAllowedArgs() + 1) {
-			MSG.sendMessage("messages.error.toomanyargs", sender);
+			MSG.sendMessage("messages.error.toomanyargs");
 			return true;
 		}
 		else {

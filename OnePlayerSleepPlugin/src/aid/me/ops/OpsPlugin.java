@@ -1,23 +1,22 @@
 package aid.me.ops;
-import java.io.File;
-import java.io.IOException;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
 import aid.me.ops.command.CommandManager;
+import aid.me.ops.sleep.SleepManager;
+import aid.me.ops.util.ConfigurationManager;
+import aid.me.ops.util.MessageManager;
+import aid.me.ops.util.OpsPlayerData;
 import aid.me.ops.command.DurationCmd;
 import aid.me.ops.command.EnabledCmd;
 import aid.me.ops.command.OpsCmd;
 import aid.me.ops.command.OpsCommand;
 import aid.me.ops.command.ReloadCmd;
 import aid.me.ops.command.WeatherCmd;
+
 import aid.me.ops.sleep.BedEnterListener;
 import aid.me.ops.sleep.BedLeaveListener;
-import aid.me.ops.sleep.SleepManager;
-import aid.me.ops.util.MessageManager;
+
 
 public class OpsPlugin {
 	
@@ -26,19 +25,34 @@ public class OpsPlugin {
 	private static CommandManager cmdMang; 
 	private static SleepManager sleepMang;
 	private static MessageManager messageMang;
-	
-	//Custom Config File Variables
-	private static FileConfiguration dataConfig;
-	private static File dataConfigFile;
+	private static ConfigurationManager configMang;
+	private static OpsPlayerData playerData;
 	
 	private OpsPlugin() {}
 	
+	//Only used once in PluginMain class
 	public static void setPluginMain(PluginMain pl) {
 		plugin = pl;
 	}
 	
+	
+	
 	public static PluginMain getPlugin() {
 		return plugin;
+	}
+	
+	public static OpsPlayerData getPlayerData() {
+		if(playerData == null) {
+			playerData = new OpsPlayerData();
+		}
+		return playerData;
+	}
+	
+	public static ConfigurationManager getConfigManager() {
+		if(configMang == null) {
+			configMang = new ConfigurationManager();
+		}
+		return configMang;
 	}
 	
 	public static CommandManager getCommandManager() {
@@ -95,50 +109,6 @@ public class OpsPlugin {
 	}
 	
 	
-	//Data.yml configuration
-	
-	//Creates data config
-	public static void createDataConfig() {
-		dataConfigFile = new File(getPlugin().getDataFolder(), "data.yml");
-		if(!dataConfigFile.exists()) {
-			dataConfigFile.getParentFile().mkdirs();
-			getPlugin().saveResource("data.yml", false);
-		}
-		
-		dataConfig = new YamlConfiguration();
-		reloadDataConfig();
-		getPlugin().getLogger().info(dataConfigFile.getName() + " successfully loaded!");
-	}
-	
-	//Returns data config
-	public static FileConfiguration getDataConfig() {
-		return dataConfig;
-	}
-	
-	//Saves data config
-	public static void saveDataConfig() {
-		try {
-			if(!dataConfigFile.exists()) {
-				createDataConfig();
-			}
-			dataConfig.save(dataConfigFile);
-		}catch(IOException e) {
-			getPlugin().getLogger().info("Error while saving " + dataConfigFile.getName());
-			e.printStackTrace();
-		}
-	}
-	
-	//Reloads the data config
-	public static void reloadDataConfig() {
-		try {
-			if(!dataConfigFile.exists()) {
-				createDataConfig();
-			}
-			dataConfig.load(dataConfigFile);
-		}catch(IOException | InvalidConfigurationException e) {
-			getPlugin().getLogger().info("Error while loading " + dataConfigFile.getName());
-			e.printStackTrace();
-		}
-	}
+
 	
 }

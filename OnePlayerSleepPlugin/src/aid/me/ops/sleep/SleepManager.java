@@ -11,7 +11,7 @@ import aid.me.ops.PluginMain;
 public class SleepManager {
 	
 	//Variables
-	private CraftPlayer bukkitPlayer;
+	private CraftPlayer bukkitPlayer = OpsPlugin.getPlayerData().getSleepingPlayer();
 	private int playerSleepTicks = 0;
 	private PluginMain pl = OpsPlugin.getPlugin();
 	
@@ -45,18 +45,9 @@ public class SleepManager {
 		bukkitPlayer.getHandle().sleepTicks = ticks;
 		return;
 	}
-	
-	public void setPlayerAs(CraftPlayer player) {
-		this.bukkitPlayer = player;
-		return;
-	}
 
 	//Methods
-	public void startSleep(boolean changesWeather, long duration) {
-		
-		if(this.bukkitPlayer == null) {
-			return;
-		}
+	public void startSleep() {
 		
 		World world = bukkitPlayer.getWorld();
 		this.taskCompleted = false;
@@ -68,18 +59,17 @@ public class SleepManager {
 				setSleepTicks(99);
 				world.setTime(0);
 				
-				if(changesWeather) {
+				if(OpsPlugin.getConfigManager().getWeather()) {
 					world.setStorm(false);
 					world.setThundering(false);
 					world.setWeatherDuration(0);
 				}
 				
-				OpsPlugin.getCommandManager().setCurrentSender(bukkitPlayer);
 				OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
 				taskCompleted = true;
 			}
 			
-		}.runTaskLater(this.pl, duration);
+		}.runTaskLater(this.pl, OpsPlugin.getConfigManager().getDuration());
 		
 		//Starts the timer that keeps a player in bed until the previous task is complete
 		this.keepPlayerAsleep();

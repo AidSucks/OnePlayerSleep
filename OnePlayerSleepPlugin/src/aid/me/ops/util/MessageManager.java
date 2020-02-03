@@ -4,26 +4,30 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 
 import aid.me.ops.OpsPlugin;
 
 public class MessageManager {
 	
+	private ConfigurationManager config = OpsPlugin.getConfigManager();
+	private OpsPlayerData pData = OpsPlugin.getPlayerData();
+	
 	private HashMap<String, String> keyTerms = new HashMap<String, String>();
 	
 	private void updateMapValues() {
 		
-		keyTerms.clear();
-		String[] terms = {"{plugin}", "{player}", "{enabled}", "{weather}", "{duration}"};
 		
-		String[] vals = 
+		keyTerms.clear();
+		String[] terms = {"{plugin}", "{player}", "{sPlayer}" , "{enabled}", "{weather}", "{duration}"};
+		
+		Object[] vals = 
 			{
 				OpsPlugin.getPlugin().getName(),
-				OpsPlugin.getCommandManager().getCurrentSender().getName(), 
-				OpsPlugin.getDataConfig().get("enabled").toString(), 
-				OpsPlugin.getDataConfig().get("changes_weather").toString(), 
-				OpsPlugin.getDataConfig().get("sleep_duration").toString()
+				pData.getCurrPlayer().getName(), 
+				pData.getSleepingPlayer().getName(),
+				config.getEnabled(), 
+				config.getWeather(), 
+				config.getDuration()
 			};
 		
 		for(int i = 0; i < terms.length; i++) {
@@ -31,7 +35,7 @@ public class MessageManager {
 				keyTerms.put(terms[i], "");
 			}
 			
-			keyTerms.put(terms[i], vals[i]);
+			keyTerms.put(terms[i], vals[i].toString());
 		}
 		
 		return;
@@ -46,15 +50,15 @@ public class MessageManager {
 		Bukkit.getServer().broadcastMessage(formatMessage(getRawMsg(path)));
 	}
 	
-	public void sendMessage(String path, CommandSender sender) {	
-		sender.sendMessage(formatMessage(getRawMsg(path)));
+	public void sendMessage(String path) {	
+		pData.getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
 		return;
 	}
 	
 	public String getRawMsg(String path) {
 		String msg = "";
-		if(OpsPlugin.getDataConfig().getString(path) != null) {
-			msg = OpsPlugin.getDataConfig().getString(path);
+		if(config.getDataConfig().getString(path) != null) {
+			msg = config.getDataConfig().getString(path);
 		}
 		return msg;
 	}

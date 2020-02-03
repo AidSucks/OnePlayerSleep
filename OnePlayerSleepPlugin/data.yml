@@ -54,7 +54,7 @@ messages:
         alreadyasleep: "&cSomeone is already asleep."
         invalidtype: "&cInvalid data type!"
     success:
-        slept: "&a{player} slept!"
+        slept: "&a{sPlayer} slept!"
         duration: "&aDuration is currently set to: &5{duration} &aticks"
         enabled: "&aPlugin enabled is currently set to: &5{enabled}"
         weather: "&aWeather change is currently set to: &5{weather}"

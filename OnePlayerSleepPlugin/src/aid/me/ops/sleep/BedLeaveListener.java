@@ -15,20 +15,15 @@ public class BedLeaveListener implements Listener{
 		CraftPlayer player = (CraftPlayer) e.getPlayer();
 		SleepManager mang = OpsPlugin.getSleepManager();
 		
-		//Find a way to store this variables elsewhere
-		//Possibly a Configuration Handler class
-		boolean isEnabled = OpsPlugin.getDataConfig().getBoolean("enabled");
+		boolean isEnabled = OpsPlugin.getConfigManager().getEnabled();
 		
 		//Check to see if either the plugin isn't enabled, or the player or Bukkit Task don't exist yet
 		if(mang.getBukkitPlayer() == null || mang.getBukkitTask() == null || !isEnabled) {
 			return;
 		}
 		
-		//If the player exists, then store them as a variable
-		CraftPlayer storedPlayer = mang.getBukkitPlayer();
-		
 		//Check if the player leaving a bed is the same player
-		if(player.equals(storedPlayer)) {
+		if(player.equals(mang.getBukkitPlayer())) {
 			//If so, execute code to stop the bukkit task
 			mang.stopSleep();
 		}

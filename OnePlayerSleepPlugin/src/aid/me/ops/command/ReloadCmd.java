@@ -2,15 +2,16 @@ package aid.me.ops.command;
 
 import org.bukkit.command.CommandSender;
 
-import aid.me.ops.OpsPlugin;
-
 public class ReloadCmd extends OpsCommand{
 	
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
-		OpsPlugin.reloadDataConfig();
-		OpsPlugin.saveDataConfig();
-		super.msgMang.sendMessage("messages.success.reload", sender);
+		
+		super.pData.setCurrentPlayer(sender);
+		
+		super.config.reloadDataConfig();
+		super.config.saveDataConfig();
+		super.msgMang.sendMessage("messages.success.reload");
 		return;
 	}
 
