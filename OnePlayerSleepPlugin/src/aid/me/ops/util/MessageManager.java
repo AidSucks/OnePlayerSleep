@@ -1,9 +1,11 @@
 package aid.me.ops.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 
 import aid.me.ops.OpsPlugin;
 
@@ -24,7 +26,7 @@ public class MessageManager {
 			{
 				OpsPlugin.getPlugin().getName(),
 				pData.getCurrPlayer().getName(), 
-				pData.getSleepingPlayer().getName(),
+				this.getSleepingString(),
 				config.getEnabled(), 
 				config.getWeather(), 
 				config.getDuration()
@@ -40,6 +42,34 @@ public class MessageManager {
 		
 		return;
 	}
+	
+
+	public String getSleepingString() {
+		
+		String text = "";
+		int n = pData.getSleepingPlayers().size();
+		
+		ArrayList<CraftPlayer> pls = new ArrayList<CraftPlayer>(n);
+		for(CraftPlayer p : pData.getSleepingPlayers().keySet()) {
+			pls.add(p);
+		}
+		
+		if(pls.size() == 1) {
+			text = pls.get(0).getName();
+			return text;
+		}
+		
+		for(int i = 0; i < pls.size(); i++) {
+			if(i == pls.size() - 1) {
+				text = text + pls.get(i).getName();
+				break;
+			}
+			text = text + pls.get(i).getName() + ", ";
+		}
+		
+		return text;
+	}
+
 	
 	public HashMap<String, String> getTermsMap() {
 		this.updateMapValues();

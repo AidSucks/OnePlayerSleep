@@ -19,8 +19,6 @@ public class BedEnterListener implements Listener{
 		ConfigurationManager data = OpsPlugin.getConfigManager();
 		MessageManager MSG = OpsPlugin.getMessageManager();
 		
-		OpsPlugin.getPlayerData().setCurrentPlayer(e.getPlayer());
-		
 		//Check to see if the plugin is enabled, and the BedResult is OK
 		if(!data.getEnabled() || !e.getBedEnterResult().equals(BedEnterResult.OK)) {
 			return;
@@ -28,16 +26,13 @@ public class BedEnterListener implements Listener{
 		
 		//Check if the sleep task already exists
 		if(mang.getBukkitTask() != null) {
-			mang.keepPlayerAsleep();
+			mang.keepPlayerAsleep((CraftPlayer) e.getPlayer());
 			MSG.sendMessage("messages.error.alreadyasleep");
 			return;
 		}
 		
-		//Set the current sleeping player
-		OpsPlugin.getPlayerData().setSleepingPlayer((CraftPlayer) e.getPlayer());
-		
 		//Execute sleep cycle code
-		mang.startSleep();
+		mang.startSleep((CraftPlayer) e.getPlayer());
 		return;
 	}
 	

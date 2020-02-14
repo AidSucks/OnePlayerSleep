@@ -17,6 +17,7 @@ sleep_duration: 100
 #Every message is now customizable with a couple key terms you can use within your messages
 #
 #Key Terms:
+#{sPlayer} - Displays a list of players who slept
 #{player} - Displays the current player that has the run the command or has slept
 #{plugin} - Displays the name of the plugin "OnePlayerSleep" 
 #{enabled} - Displays the current enabled status of the plugin

@@ -35,8 +35,6 @@ public class OpsPlugin {
 		plugin = pl;
 	}
 	
-	
-	
 	public static PluginMain getPlugin() {
 		return plugin;
 	}

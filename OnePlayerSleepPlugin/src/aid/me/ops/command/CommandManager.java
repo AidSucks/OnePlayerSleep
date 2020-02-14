@@ -22,7 +22,7 @@ public class CommandManager implements CommandExecutor{
 		}
 	}
 	
-	/* This is now handled in the PluginMain class
+	/* This is now handled in the OpsPlugin class
 	 * Obselete
 	 * 
 	public void initCommands() {
