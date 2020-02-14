@@ -27,9 +27,13 @@ public class BedLeaveListener implements Listener{
 			return;
 		}
 		
-		//execute code to remove the player from the sleeping list
-		OpsPlugin.getSleepManager().removeSleepingPlayer(player);
-		
+		if(mang.getSleepingPlayers().size() <= 1) {
+			OpsPlugin.getSleepManager().stopSleep();
+		}
+		else{
+			OpsPlugin.getSleepManager().removeSleepingPlayer(player);
+		}
+
 		return;
 	}
 }

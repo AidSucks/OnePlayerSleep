@@ -150,6 +150,7 @@ public class SleepManager {
 		try {
 			
 			this.bukkitTask.cancel();
+			this.bukkitTask = null;
 			
 			if(!plData.getSleepingPlayers().isEmpty()) {
 				for(CraftPlayer p : plData.getSleepingPlayers().keySet()) {
