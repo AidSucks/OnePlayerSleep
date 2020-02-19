@@ -7,13 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 
 import aid.me.ops.OpsPlugin;
-import aid.me.ops.command.CommandManager;
 import aid.me.ops.sleep.SleepManager;
 
 public class MessageManager {
 	
 	private ConfigurationManager config = OpsPlugin.getConfigManager();
-	private CommandManager cmdMang = OpsPlugin.getCommandManager();
 	private SleepManager mang = OpsPlugin.getSleepManager();
 	
 	private HashMap<String, String> keyTerms = new HashMap<String, String>();
@@ -27,7 +25,7 @@ public class MessageManager {
 		Object[] vals = 
 			{
 				OpsPlugin.getPlugin().getName(),
-				cmdMang.getCurrPlayer().getName(), 
+				OpsPlugin.getCommandManager().getCurrPlayer().getName(), 
 				this.getSleepingString(),
 				config.getEnabled(), 
 				config.getWeather(), 
@@ -79,7 +77,7 @@ public class MessageManager {
 	}
 	
 	public void sendMessage(String path) {	
-		cmdMang.getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
+		OpsPlugin.getCommandManager().getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
 		return;
 	}
 	
