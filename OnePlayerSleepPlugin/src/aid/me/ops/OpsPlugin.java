@@ -6,7 +6,6 @@ import aid.me.ops.command.CommandManager;
 import aid.me.ops.sleep.SleepManager;
 import aid.me.ops.util.ConfigurationManager;
 import aid.me.ops.util.MessageManager;
-import aid.me.ops.util.OpsPlayerData;
 import aid.me.ops.command.DurationCmd;
 import aid.me.ops.command.EnabledCmd;
 import aid.me.ops.command.OpsCmd;
@@ -26,7 +25,6 @@ public class OpsPlugin {
 	private static SleepManager sleepMang;
 	private static MessageManager messageMang;
 	private static ConfigurationManager configMang;
-	private static OpsPlayerData playerData;
 	
 	private OpsPlugin() {}
 	
@@ -37,13 +35,6 @@ public class OpsPlugin {
 	
 	public static PluginMain getPlugin() {
 		return plugin;
-	}
-	
-	public static OpsPlayerData getPlayerData() {
-		if(playerData == null) {
-			playerData = new OpsPlayerData();
-		}
-		return playerData;
 	}
 	
 	public static ConfigurationManager getConfigManager() {

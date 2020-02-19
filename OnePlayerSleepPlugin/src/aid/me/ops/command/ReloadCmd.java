@@ -7,7 +7,7 @@ public class ReloadCmd extends OpsCommand{
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		
-		super.pData.setCurrentPlayer(sender);
+		super.cmdMang.setCurrentPlayer(sender);
 		
 		super.config.reloadDataConfig();
 		super.config.saveDataConfig();

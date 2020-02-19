@@ -8,7 +8,7 @@ public class EnabledCmd extends OpsCommand{
 	public void onCommand(CommandSender sender, String[] args) {
 		
 		boolean isEnabled;
-		super.pData.setCurrentPlayer(sender);
+		super.cmdMang.setCurrentPlayer(sender);
 		
 		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
 			super.msgMang.sendMessage("messages.success.enabled");

@@ -2,51 +2,62 @@ package aid.me.ops.command;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.util.MessageManager;
-import aid.me.ops.util.OpsPlayerData;
 
 public class CommandManager implements CommandExecutor{
 
+	//VARIABLES
 	private ArrayList<OpsCommand> commands;
 	private MessageManager MSG = OpsPlugin.getMessageManager();
-	private OpsPlayerData pData = OpsPlugin.getPlayerData();
+	private CommandSender currentPlayer;
 
+	
+	//CONSTRUCTOR
 	public CommandManager() {
-		if(commands == null) {
-			commands = new ArrayList<OpsCommand>();
+		if(this.commands == null) {
+			this.commands = new ArrayList<OpsCommand>();
 		}
 	}
 	
-	/* This is now handled in the OpsPlugin class
-	 * Obselete
-	 * 
-	public void initCommands() {
-		OpsCommand[] cmds = {new ReloadCmd(), new EnabledCmd(), new WeatherCmd(),
-				 new DurationCmd(), new OpsCmd()};
-		if(commands == null) commands = new ArrayList<OpsCommand>();
-		addCommands(cmds);
-	} 
-	*/
 	
-	public void addCommands(OpsCommand[] cmds) {
-		for(OpsCommand cmd : cmds) {
-			commands.add(cmd);
+	//GETTERS
+	public CommandSender getCurrPlayer() {
+		if(this.currentPlayer == null) {
+			return Bukkit.getServer().getConsoleSender();
 		}
+		return this.currentPlayer;
 	}
 	
 	public ArrayList<OpsCommand> getCommands() {
 		return this.commands;
 	}
 	
+	
+	//UTIL
+	public void addCommands(OpsCommand[] cmds) {
+		for(OpsCommand cmd : cmds) {
+			commands.add(cmd);
+		}
+	}
+	
+	public void setCurrentPlayer(CommandSender currPlayer) {
+		this.currentPlayer = currPlayer;
+		return;
+	}
+
+	
+	
+	//MAIN METHOD
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		pData.setCurrentPlayer(sender);
+		this.setCurrentPlayer(sender);
 		
 		boolean isOpsCmd = false;
 		OpsCommand command = null;

@@ -1,6 +1,5 @@
 package aid.me.ops.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -8,11 +7,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 
 import aid.me.ops.OpsPlugin;
+import aid.me.ops.command.CommandManager;
+import aid.me.ops.sleep.SleepManager;
 
 public class MessageManager {
 	
 	private ConfigurationManager config = OpsPlugin.getConfigManager();
-	private OpsPlayerData pData = OpsPlugin.getPlayerData();
+	private CommandManager cmdMang = OpsPlugin.getCommandManager();
+	private SleepManager mang = OpsPlugin.getSleepManager();
 	
 	private HashMap<String, String> keyTerms = new HashMap<String, String>();
 	
@@ -25,7 +27,7 @@ public class MessageManager {
 		Object[] vals = 
 			{
 				OpsPlugin.getPlugin().getName(),
-				pData.getCurrPlayer().getName(), 
+				cmdMang.getCurrPlayer().getName(), 
 				this.getSleepingString(),
 				config.getEnabled(), 
 				config.getWeather(), 
@@ -47,24 +49,20 @@ public class MessageManager {
 	public String getSleepingString() {
 		
 		String text = "";
-		int n = pData.getSleepingPlayers().size();
 		
-		ArrayList<CraftPlayer> pls = new ArrayList<CraftPlayer>(n);
-		for(CraftPlayer p : pData.getSleepingPlayers().keySet()) {
-			pls.add(p);
-		}
+		CraftPlayer[] players = mang.getSleepingPlayers().keySet().toArray(new CraftPlayer[0]);
 		
-		if(pls.size() == 1) {
-			text = pls.get(0).getName();
+		if(players.length == 1) {
+			text = players[0].getName();
 			return text;
 		}
 		
-		for(int i = 0; i < pls.size(); i++) {
-			if(i == pls.size() - 1) {
-				text = text + pls.get(i).getName();
+		for(int i = 0; i < players.length; i++) {
+			if(i == players.length - 1) {
+				text = text + players[i].getName();
 				break;
 			}
-			text = text + pls.get(i).getName() + ", ";
+			text = text + players[i].getName() + ", ";
 		}
 		
 		return text;
@@ -81,7 +79,7 @@ public class MessageManager {
 	}
 	
 	public void sendMessage(String path) {	
-		pData.getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
+		cmdMang.getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
 		return;
 	}
 	
