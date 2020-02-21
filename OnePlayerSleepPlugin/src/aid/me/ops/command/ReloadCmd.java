@@ -22,12 +22,17 @@ public class ReloadCmd extends OpsCommand{
 
 	@Override
 	public String getPermission() {
-		return "ops.reload";
+		return "ops.admin.reload";
 	}
 
 	@Override
 	public int maxAllowedArgs() {
 		return 0;
+	}
+
+	@Override
+	public boolean isAdminCmd() {
+		return false;
 	}
 
 }

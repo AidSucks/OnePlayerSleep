@@ -48,7 +48,7 @@ public class MessageManager {
 		
 		String text = "";
 		
-		CraftPlayer[] players = mang.getSleepingPlayers().keySet().toArray(new CraftPlayer[0]);
+		CraftPlayer[] players = mang.getSleepingPlayers().keySet().toArray(new CraftPlayer[mang.getSleepingPlayers().size()]);
 		
 		if(players.length == 1) {
 			text = players[0].getName();

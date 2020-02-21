@@ -19,4 +19,6 @@ public abstract class OpsCommand {
 	public abstract String getPermission();
 	
 	public abstract int maxAllowedArgs();
+	
+	public abstract boolean isAdminCmd();
 }

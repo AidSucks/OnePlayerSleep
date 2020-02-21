@@ -55,4 +55,9 @@ public class WeatherCmd extends OpsCommand{
 		return 2;
 	}
 
+	@Override
+	public boolean isAdminCmd() {
+		return false;
+	}
+
 }

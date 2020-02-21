@@ -15,7 +15,7 @@ public class SleepManager {
 	//VARIABLES
 	private PluginMain pl = OpsPlugin.getPlugin();
 	private HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
-	private BukkitTask bukkitTask = null; 
+	private BukkitTask bukkitTask; 
 
 	
 	//CONSTRUCTOR
@@ -73,11 +73,9 @@ public class SleepManager {
 	//Interrupts everyone's sleep cycle
 	public void stopSleep() {
 		
-		if(this.bukkitTask != null) {
-			this.bukkitTask.cancel();
-		}
+		this.bukkitTask.cancel();
 			
-		CraftPlayer[] players = sleepingPlayers.keySet().toArray(new CraftPlayer[0]);
+		CraftPlayer[] players = sleepingPlayers.keySet().toArray(new CraftPlayer[sleepingPlayers.size()]);
 		
 		for(CraftPlayer p : players) {
 			this.removeSleepingPlayer(p);

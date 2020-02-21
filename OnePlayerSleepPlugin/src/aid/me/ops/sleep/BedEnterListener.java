@@ -25,7 +25,7 @@ public class BedEnterListener implements Listener{
 		//Execute sleep cycle code
 		mang.addSleepingPlayer((CraftPlayer) e.getPlayer());
 		
-		if(mang.getBukkitTask() == null) {
+		if(mang.getSleepingPlayers().size() <= 1) {
 			mang.startSleep(e.getPlayer().getWorld());
 		}
 			

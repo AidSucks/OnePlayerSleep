@@ -21,6 +21,7 @@ public class OpsPlugin {
 	
 	private static PluginMain plugin;
 	
+	//ASSET VARIABLES
 	private static CommandManager cmdMang; 
 	private static SleepManager sleepMang;
 	private static MessageManager messageMang;
@@ -65,10 +66,8 @@ public class OpsPlugin {
 		}
 		return messageMang;
 	}
-	
-	
-	
-	//Registry Methods
+		
+//Registry Methods
 	
 	//Registers all listeners
 	public static void initListeners() {
@@ -96,8 +95,5 @@ public class OpsPlugin {
 		
 		getPlugin().getLogger().info("All commands initialized!");
 	}
-	
-	
-
 	
 }
