@@ -2,15 +2,16 @@ package aid.me.ops.command;
 
 import org.bukkit.command.CommandSender;
 
-import aid.me.ops.OpsPlugin;
-
 public class ReloadCmd extends OpsCommand{
 	
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
-		OpsPlugin.reloadDataConfig();
-		OpsPlugin.saveDataConfig();
-		super.msgMang.sendMessage("messages.success.reload", sender);
+		
+		super.cmdMang.setCurrentPlayer(sender);
+		
+		super.config.reloadDataConfig();
+		super.config.saveDataConfig();
+		super.msgMang.sendMessage("messages.success.reload");
 		return;
 	}
 
@@ -21,12 +22,17 @@ public class ReloadCmd extends OpsCommand{
 
 	@Override
 	public String getPermission() {
-		return "ops.reload";
+		return "ops.admin.reload";
 	}
 
 	@Override
 	public int maxAllowedArgs() {
 		return 0;
+	}
+
+	@Override
+	public boolean isAdminCmd() {
+		return false;
 	}
 
 }

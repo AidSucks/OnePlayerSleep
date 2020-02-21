@@ -1,5 +1,7 @@
 package aid.me.ops.sleep;
 
+import java.util.HashMap;
+
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,103 +12,108 @@ import aid.me.ops.PluginMain;
 
 public class SleepManager {
 	
-	//Variables
-	private CraftPlayer bukkitPlayer;
-	private int playerSleepTicks = 0;
+	//VARIABLES
 	private PluginMain pl = OpsPlugin.getPlugin();
+	private HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
+	private BukkitTask bukkitTask; 
+
 	
-	private BukkitTask bukkitTask, taskTimer; 
-	
-	private boolean taskCompleted = false;
-	
-	//Getters
-	public int getSleepTicks() {
-		return this.playerSleepTicks;
+	//CONSTRUCTOR
+	public SleepManager() {
+		if(this.sleepingPlayers == null) {
+			this.sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
+		}
 	}
 	
-	public CraftPlayer getBukkitPlayer() {
-		return this.bukkitPlayer;
+	//GETTERS
+	public HashMap<CraftPlayer, BukkitTask> getSleepingPlayers() {
+		return this.sleepingPlayers;
 	}
-	
+
 	public BukkitTask getBukkitTask() {
 		return this.bukkitTask;
 	}
 	
-	public BukkitTask getBukkitTimerTask() {
-		return this.taskTimer;
-	}
 	
-	public boolean taskIsCompleted() {
-		return taskCompleted;
-	}
-	
-	//Setters
-	public void setSleepTicks(int ticks) {
-		bukkitPlayer.getHandle().sleepTicks = ticks;
-		return;
-	}
-	
-	public void setPlayerAs(CraftPlayer player) {
-		this.bukkitPlayer = player;
+	//SETTERS
+	public void setSleepTicks(int ticks, CraftPlayer pl) {
+		pl.getHandle().sleepTicks = ticks;
 		return;
 	}
 
-	//Methods
-	public void startSleep(boolean changesWeather, long duration) {
-		
-		if(this.bukkitPlayer == null) {
-			return;
-		}
-		
-		World world = bukkitPlayer.getWorld();
-		this.taskCompleted = false;
+	//METHODS
+	private void wakeupPlayer(CraftPlayer pl) {
+		this.setSleepTicks(99, pl);
+		return;
+	}
+	
+	public void startSleep(World world) {
 		
 		//Schedules a new Bukkit Task to be run after the duration in ticks
 		this.bukkitTask = new BukkitRunnable() {
 			
 			public void run() {
-				setSleepTicks(99);
 				world.setTime(0);
 				
-				if(changesWeather) {
+				if(OpsPlugin.getConfigManager().getWeather()) {
 					world.setStorm(false);
 					world.setThundering(false);
 					world.setWeatherDuration(0);
 				}
 				
 				OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
-				taskCompleted = true;
+				stopSleep();
 			}
 			
-		}.runTaskLater(this.pl, duration);
-		
-		//Starts the timer that keeps a player in bed until the previous task is complete
-		this.taskTimer = new BukkitRunnable() {
-			
-			public void run() {
-				setSleepTicks(0);
-				if(taskCompleted) {
-					this.cancel();
-				}
-			}
-			
-		}.runTaskTimer(this.pl, 0, 1);
+		}.runTaskLater(this.pl, OpsPlugin.getConfigManager().getDuration());
 		
 		return;
 	}
 	
-	//Attempts to interrupt the sleep cycle and stop its exection
+	//Interrupts everyone's sleep cycle
 	public void stopSleep() {
 		
-		try {
+		this.bukkitTask.cancel();
 			
-			this.bukkitTask.cancel();
-			this.taskCompleted = true;
+		CraftPlayer[] players = sleepingPlayers.keySet().toArray(new CraftPlayer[sleepingPlayers.size()]);
+		
+		for(CraftPlayer p : players) {
+			this.removeSleepingPlayer(p);
+		}
+		
+		sleepingPlayers.clear();
+		return;
+	}
+	
+	//TODO If I decide to add a command to allow an operator to kick someone out of bed
+	//then, I can just check in the command class whether or not the player is in the sleepingPlayers Map
+	public void addSleepingPlayer(CraftPlayer pl) {
+		
+		BukkitTask tempTimer = new BukkitRunnable() {
+	
+			public void run() {
+				setSleepTicks(0, pl);
+			}
+			
+		}.runTaskTimer(this.pl, 0, 1);
+		
+		sleepingPlayers.put(pl, tempTimer);
+		return;
+	}
+	
+	//Used to remove only one player
+	public void removeSleepingPlayer(CraftPlayer pl) {
+		
+		try {
+		
+			sleepingPlayers.get(pl).cancel();
+			sleepingPlayers.remove(pl);
 			
 		}catch(IllegalStateException ex) {
 			ex.printStackTrace();
 		}
 		
+		this.wakeupPlayer(pl);
 		return;
 	}
 	

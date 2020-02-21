@@ -12,7 +12,7 @@ public class PluginMain extends JavaPlugin {
 		
 		this.initPluginAssets();
 		
-		OpsPlugin.createDataConfig();
+		OpsPlugin.getConfigManager().createDataConfig();
 		OpsPlugin.initCommands();
 		OpsPlugin.initListeners();
 		

@@ -40,4 +40,9 @@ public class OpsCmd extends OpsCommand{
 		return -1;
 	}
 
+	@Override
+	public boolean isAdminCmd() {
+		return false;
+	}
+
 }

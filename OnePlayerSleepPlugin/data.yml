@@ -1,4 +1,4 @@
-#OnePlayerSleep Version 2.6 - by Aid
+#OnePlayerSleep Version 2.7 - by Aid
 
 #Determines whether or not the plugin is enabled
 enabled: true
@@ -17,6 +17,7 @@ sleep_duration: 100
 #Every message is now customizable with a couple key terms you can use within your messages
 #
 #Key Terms:
+#{sPlayer} - Displays a list of players who slept
 #{player} - Displays the current player that has the run the command or has slept
 #{plugin} - Displays the name of the plugin "OnePlayerSleep" 
 #{enabled} - Displays the current enabled status of the plugin
@@ -54,7 +55,7 @@ messages:
         alreadyasleep: "&cSomeone is already asleep."
         invalidtype: "&cInvalid data type!"
     success:
-        slept: "&a{player} slept!"
+        slept: "&a{sPlayer} slept!"
         duration: "&aDuration is currently set to: &5{duration} &aticks"
         enabled: "&aPlugin enabled is currently set to: &5{enabled}"
         weather: "&aWeather change is currently set to: &5{weather}"
