@@ -3,7 +3,7 @@ package aid.me.ops.sleep;
 import java.util.HashMap;
 
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -20,9 +20,13 @@ public class SleepManager {
 	
 	//CONSTRUCTOR
 	public SleepManager() {
-		if(this.sleepingPlayers == null) {
-			this.sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
-		}
+	    this.initSleepingPlayersArray();
+	}
+	
+	private void initSleepingPlayersArray() {
+	    if(this.sleepingPlayers == null) {
+		this.sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
+	    }
 	}
 	
 	//GETTERS
@@ -49,25 +53,25 @@ public class SleepManager {
 	
 	public void startSleep(World world) {
 		
-		//Schedules a new Bukkit Task to be run after the duration in ticks
-		this.bukkitTask = new BukkitRunnable() {
+	    //Schedules a new Bukkit Task to be run after the duration in ticks
+	    this.bukkitTask = new BukkitRunnable() {
 			
-			public void run() {
-				world.setTime(0);
+		public void run() {
+		    world.setTime(0);
 				
-				if(OpsPlugin.getConfigManager().getWeather()) {
-					world.setStorm(false);
-					world.setThundering(false);
-					world.setWeatherDuration(0);
-				}
-				
-				OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
-				stopSleep();
-			}
+		    if(OpsPlugin.getConfigManager().getWeather()) {
+			world.setStorm(false);
+			world.setThundering(false);
+			world.setWeatherDuration(0);
+		    }
 			
-		}.runTaskLater(this.pl, OpsPlugin.getConfigManager().getDuration());
-		
-		return;
+		    OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
+		    stopSleep();
+		}
+
+	    }.runTaskLater(this.pl, OpsPlugin.getConfigManager().getDuration());
+	
+	    return;
 	}
 	
 	//Interrupts everyone's sleep cycle
