@@ -23,11 +23,6 @@ public class MessageBuilder {
 		String.valueOf(config.getDuration())
 	};
 	
-	//Initialization upon construction
-	public MessageBuilder() {
-		this.updateValues();
-	}
-	
 	//Returns a updated messageMap
 	public HashMap<String, String> getMessageMap(){
 		this.updateValues();
