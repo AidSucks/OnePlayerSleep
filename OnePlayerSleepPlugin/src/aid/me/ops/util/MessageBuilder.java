@@ -13,16 +13,6 @@ public class MessageBuilder {
 	private SleepManager sleepMang = OpsPlugin.getSleepManager();
 	private HashMap<String, String> messageMap = new HashMap<String, String>();
 	
-	//Constant values
-	private final String[] values = {
-		OpsPlugin.getPlugin().getName(),
-		OpsPlugin.getCommandManager().getCurrPlayer().getName(), 
-		this.buildSleepString(),
-		String.valueOf(config.getEnabled()), 
-		String.valueOf(config.getWeather()), 
-		String.valueOf(config.getDuration())
-	};
-	
 	//Returns a updated messageMap
 	public HashMap<String, String> getMessageMap(){
 		this.updateValues();
@@ -56,6 +46,15 @@ public class MessageBuilder {
 	
 	//Logic for updating the messageMap
 	private void updateValues() {
+		
+		String[] values = {
+			OpsPlugin.getPlugin().getName(),
+			OpsPlugin.getCommandManager().getCurrPlayer().getName(), 
+			this.buildSleepString(),
+			String.valueOf(config.getEnabled()), 
+			String.valueOf(config.getWeather()), 
+			String.valueOf(config.getDuration())
+		};
 		
 		final MessageKey[] keys = MessageKey.values();
 		this.messageMap.clear();
