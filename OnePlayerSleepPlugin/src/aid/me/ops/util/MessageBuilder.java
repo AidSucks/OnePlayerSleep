@@ -9,9 +9,9 @@ import aid.me.ops.sleep.SleepManager;
 
 public class MessageBuilder {
 	
-	private ConfigurationManager config;
-	private SleepManager sleepMang;
-	private HashMap<String, String> messageMap;
+	private ConfigurationManager config = OpsPlugin.getConfigManager();
+	private SleepManager sleepMang = OpsPlugin.getSleepManager();
+	private HashMap<String, String> messageMap = new HashMap<String, String>();
 	
 	//Constant values
 	private final String[] values = {
@@ -25,9 +25,6 @@ public class MessageBuilder {
 	
 	//Initialization upon construction
 	public MessageBuilder() {
-		this.config = OpsPlugin.getConfigManager();
-		this.sleepMang = OpsPlugin.getSleepManager();
-		this.messageMap = new HashMap<String, String>();
 		this.updateValues();
 	}
 	

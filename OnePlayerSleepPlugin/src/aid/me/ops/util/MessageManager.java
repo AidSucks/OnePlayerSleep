@@ -10,14 +10,8 @@ import aid.me.ops.OpsPlugin;
 public class MessageManager {
 	
 	//Class wide variables
-	private MessageBuilder builder;
-	private ConfigurationManager config;
-	
-	//Intialization upon construction
-	public MessageManager() {
-		this.builder = new MessageBuilder();
-		this.config = OpsPlugin.getConfigManager();
-	}
+	private MessageBuilder builder = new MessageBuilder();
+	private ConfigurationManager config = OpsPlugin.getConfigManager();
 	
 	//Wrapper methods
 	public void broadcastMessage(String path) {
