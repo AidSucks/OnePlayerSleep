@@ -14,7 +14,7 @@ public class SleepManager {
 	
 	//VARIABLES
 	private PluginMain pl = OpsPlugin.getPlugin();
-	private HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
+	private static HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
 	private BukkitTask bukkitTask; 
 
 	
@@ -24,14 +24,14 @@ public class SleepManager {
 	}
 	
 	private void initSleepingPlayersArray() {
-	    if(this.sleepingPlayers == null) {
-		this.sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
+	    if(sleepingPlayers == null) {
+	    	sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
 	    }
 	}
 	
 	//GETTERS
 	public HashMap<CraftPlayer, BukkitTask> getSleepingPlayers() {
-		return this.sleepingPlayers;
+		return sleepingPlayers;
 	}
 
 	public BukkitTask getBukkitTask() {

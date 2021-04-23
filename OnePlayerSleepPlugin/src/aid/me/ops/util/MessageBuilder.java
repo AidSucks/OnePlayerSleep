@@ -27,18 +27,20 @@ public class MessageBuilder {
 		CraftPlayer[] players = 
 				sleepMang.getSleepingPlayers().keySet().toArray(new CraftPlayer[sleepMang.getSleepingPlayers().size()]);
 		
+		if(players.length == 0) {
+			return finalizedText;
+		}
+		
 		if(players.length > 1) {
-			
 			for(int x = 0; x < players.length; x++) {
-				//Check for last player
 				if(x == players.length - 1) {
-					finalizedText.concat("and " + players[x].getName());
+					finalizedText = finalizedText.concat("and " + players[x].getName());
 					break;
 				}
-				finalizedText.concat(players[x].getName() + ", ");
+				finalizedText = finalizedText.concat(players[x].getName() + ", ");
 			}
 		}else {
-			finalizedText = players[0].getName();
+			finalizedText = finalizedText.concat(players[0].getName());
 		}
 		
 		return finalizedText;

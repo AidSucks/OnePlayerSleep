@@ -12,7 +12,7 @@ import aid.me.ops.command.OpsCmd;
 import aid.me.ops.command.OpsCommand;
 import aid.me.ops.command.ReloadCmd;
 import aid.me.ops.command.WeatherCmd;
-
+import aid.me.ops.command.admin.RevokeCmd;
 import aid.me.ops.sleep.BedEnterListener;
 import aid.me.ops.sleep.BedLeaveListener;
 
@@ -88,7 +88,7 @@ public class OpsPlugin {
 	public static void initCommands() {
 		
 		OpsCommand[] cmds = {new ReloadCmd(), new EnabledCmd(), new WeatherCmd(),
-				 new DurationCmd(), new OpsCmd()};
+				 new DurationCmd(), new RevokeCmd(), new OpsCmd()};
 		
 		getCommandManager().addCommands(cmds);
 		getPlugin().getCommand("ops").setExecutor(getCommandManager());
