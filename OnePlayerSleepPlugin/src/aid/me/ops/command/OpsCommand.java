@@ -14,11 +14,5 @@ public abstract class OpsCommand {
 	
 	public abstract void onCommand(CommandSender sender, String[] args);
 	
-	public abstract String getName();
-	
-	public abstract String getPermission();
-	
-	public abstract int maxAllowedArgs();
-	
-	public abstract boolean isAdminCmd();
+	public abstract OpsCommandType getType();
 }
