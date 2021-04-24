@@ -69,6 +69,11 @@ public enum OpsCommandType {
 			int maxArgs, boolean isAdmin) 
 	{
 		this.name = name;
+		this.usage = usage;
+		this.permission = permission;
+		this.description = description;
+		this.maxArgs = maxArgs;
+		this.isAdmin = isAdmin;
 	}
 	
 	public String getName() {
