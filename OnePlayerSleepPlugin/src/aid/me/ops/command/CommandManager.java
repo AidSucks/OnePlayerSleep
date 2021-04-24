@@ -66,7 +66,7 @@ public class CommandManager implements CommandExecutor{
 			//Loop through the names of registered commands and 
 			for(OpsCommand opscmd : commands) {
 				String x = args[0];
-				String cmdName = opscmd.getName();
+				String cmdName = opscmd.getType().getName();
 			
 				//If the command is found, set it to the var command
 				if(x.equalsIgnoreCase(cmdName)) {
@@ -84,11 +84,11 @@ public class CommandManager implements CommandExecutor{
 		//Check if this is not a command
 		if(!isOpsCmd) return true;
 		
-		if(!sender.hasPermission(command.getPermission())) {
+		if(!sender.hasPermission(command.getType().getPermission())) {
 			MSG.sendMessage("messages.error.permission");
 			return true;
 		}
-		else if(args.length > command.maxAllowedArgs() + 1) {
+		else if(args.length > command.getType().maxAllowedArgs() + 1) {
 			MSG.sendMessage("messages.error.toomanyargs");
 			return true;
 		}
