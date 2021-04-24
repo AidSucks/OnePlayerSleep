@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import aid.me.ops.OpsPlugin;
 
 public class OpsCmd extends OpsCommand{
-	
+
 	private CommandManager cmdMang = OpsPlugin.getCommandManager();
 	
 	@Override
@@ -17,32 +17,17 @@ public class OpsCmd extends OpsCommand{
 		
 		ArrayList<OpsCommand> commands = cmdMang.getCommands();
 		
-		//TODO Implement a better way of displaying all commands
 		sender.sendMessage(ChatColor.DARK_PURPLE + "One Player Sleep Commands:");
 		for(OpsCommand cmd : commands) {
-			sender.sendMessage("/ops " + cmd.getName());
+			sender.sendMessage(ChatColor.GREEN + cmd.getType().getUsage() + 
+					" - " + cmd.getType().getDescription());
 		}
 		return;
 	}
 
 	@Override
-	public String getName() {
-		return "ops";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.help";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return -1;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
+	public OpsCommandType getType() {
+		return OpsCommandType.OPS;
 	}
 
 }
