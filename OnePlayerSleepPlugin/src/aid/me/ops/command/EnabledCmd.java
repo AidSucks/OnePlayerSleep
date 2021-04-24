@@ -36,14 +36,9 @@ public class EnabledCmd extends OpsCommand{
 
 			
 		super.config.setEnabled(isEnabled);
-		super.config.saveDataConfig();
+		super.config.save();
 		super.msgMang.sendMessage("messages.success.setenabled");
 		return;
-	}
-
-	@Override
-	public OpsCommandType getType() {
-		return OpsCommandType.ENABLED;
 	}
 
 }

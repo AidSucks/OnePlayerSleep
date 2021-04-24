@@ -9,15 +9,10 @@ public class ReloadCmd extends OpsCommand{
 		
 		super.cmdMang.setCurrentPlayer(sender);
 		
-		super.config.reloadDataConfig();
-		super.config.saveDataConfig();
+		super.config.reload();
+		super.config.save();
 		super.msgMang.sendMessage("messages.success.reload");
 		return;
-	}
-
-	@Override
-	public OpsCommandType getType() {
-		return OpsCommandType.RELOAD;
 	}
 
 }

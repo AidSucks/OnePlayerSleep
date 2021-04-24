@@ -6,12 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import aid.me.ops.OpsPlugin;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class MessageManager {
 	
 	//Class wide variables
 	private MessageBuilder builder = new MessageBuilder();
-	private ConfigurationManager config = OpsPlugin.getConfigManager();
+	private OpsDataConfig config = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 	
 	//Wrapper methods
 	public void broadcastMessage(String path) {
@@ -25,8 +26,8 @@ public class MessageManager {
 	
 	public String getRawMsg(String path) {
 		String msg = "";
-		if(config.getDataConfig().getString(path) != null) {
-			msg = config.getDataConfig().getString(path);
+		if(config.get().getString(path) != null) {
+			msg = config.get().getString(path);
 		}
 		return msg;
 	}

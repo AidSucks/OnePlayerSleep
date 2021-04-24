@@ -22,7 +22,7 @@ public class DurationCmd extends OpsCommand{
 		try {
 			long duration = Integer.parseInt(args[2]);
 			super.config.setDuration(duration);
-			super.config.saveDataConfig();
+			super.config.save();
 			super.msgMang.sendMessage("messages.success.setduration");
 			return;
 		}catch(NumberFormatException e) {
@@ -30,11 +30,6 @@ public class DurationCmd extends OpsCommand{
 			return;
 		}
 		
-	}
-
-	@Override
-	public OpsCommandType getType() {
-		return OpsCommandType.DURATION;
 	}
 
 }

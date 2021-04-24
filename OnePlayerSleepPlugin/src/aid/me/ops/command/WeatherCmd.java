@@ -35,14 +35,9 @@ public class WeatherCmd extends OpsCommand{
 		}
 		
 		super.config.setWeather(isEnabled);
-		super.config.saveDataConfig();
+		super.config.save();
 		super.msgMang.sendMessage("messages.success.setweather");
 		return;
-	}
-
-	@Override
-	public OpsCommandType getType() {
-		return OpsCommandType.WEATHER;
 	}
 
 }

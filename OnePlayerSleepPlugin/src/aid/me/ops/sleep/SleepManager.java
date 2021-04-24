@@ -9,14 +9,15 @@ import org.bukkit.scheduler.BukkitTask;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.PluginMain;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class SleepManager {
 	
 	//VARIABLES
 	private PluginMain pl = OpsPlugin.getPlugin();
 	private static HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
-	private BukkitTask bukkitTask; 
-
+	private BukkitTask bukkitTask;
+	private OpsDataConfig dataConfig = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 	
 	//CONSTRUCTOR
 	public SleepManager() {
@@ -59,7 +60,7 @@ public class SleepManager {
 		public void run() {
 		    world.setTime(0);
 				
-		    if(OpsPlugin.getConfigManager().getWeather()) {
+		    if(dataConfig.getWeather()) {
 			world.setStorm(false);
 			world.setThundering(false);
 			world.setWeatherDuration(0);
@@ -69,7 +70,7 @@ public class SleepManager {
 		    stopSleep();
 		}
 
-	    }.runTaskLater(this.pl, OpsPlugin.getConfigManager().getDuration());
+	    }.runTaskLater(this.pl, dataConfig.getDuration());
 	
 	    return;
 	}

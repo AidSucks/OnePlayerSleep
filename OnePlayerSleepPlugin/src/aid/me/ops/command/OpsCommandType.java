@@ -1,103 +1,30 @@
 package aid.me.ops.command;
 
+import aid.me.ops.command.admin.*;
+
 public enum OpsCommandType {
 	
-	//ENUM 	//NAME
-		   	//USAGE
-			//PERMISSION
-			//DESCRIPTION
-			//MAX ARGUMENTS
-			//ADMIN COMMAND
-	
-	//TODO Possibly store in yml or text file instead of an enum
-	OPS("ops", 
-		"/ops", 
-		"ops.help", 
-		"Default OPS Command", 
-		-1, 
-		false
-		),
-	
-	DURATION("duration",
-			"/ops duration [set <ticks>]",
-			"ops.set.duration",
-			"Sets or outputs the current duration in ticks",
-			2,
-			false
-			),
-	
-	ENABLED("enabled",
-			"/ops enabled [set <true|false>]",
-			"ops.set.enabled",
-			"Sets or outputs the current state of the plugin",
-			2,
-			false
-			),
-	
-	WEATHER("weather",
-			"/ops weather [set <true|false>]",
-			"ops.set.weather",
-			"Sets or outputs whether or not the weather is affected by sleeping",
-			2,
-			false
-			),
-	
-	RELOAD("reload",
-		   "/ops reload",
-		   "ops.admin.reload",
-		   "Reloads the OPS data.yml",
-		   0,
-		   true
-		   ),
-	
-	REVOKE("revoke",
-			"/ops revoke <player>",
-			"ops.admin.revoke",
-			"Forbids the given player from sleeping",
-			1,
-			true
-			);
-	
-	private String name, usage, permission, description;
-	private int maxArgs;
-	private boolean isAdmin;
-	
-	//Definition Constructor
-	private OpsCommandType
-			(String name, String usage, 
-			String permission, String description, 
-			int maxArgs, boolean isAdmin) 
-	{
-		this.name = name;
-		this.usage = usage;
-		this.permission = permission;
-		this.description = description;
-		this.maxArgs = maxArgs;
-		this.isAdmin = isAdmin;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public String getUsage() {
-		return this.usage;
-	}
+	OPS("ops", new OpsCmd()), 
+	DURATION("duration", new DurationCmd()), 
+	ENABLED("enabled", new EnabledCmd()), 
+	WEATHER("weather", new WeatherCmd()), 
+	RELOAD("reload", new ReloadCmd()), 
+	REVOKE("revoke", new RevokeCmd());
 
-	public String getPermission() {
-		return this.permission;
+	private String label;
+	private OpsCommand cmd;
+	
+	private OpsCommandType(String label, OpsCommand cmd) {
+		this.label = label;
+		this.cmd = cmd;
 	}
 	
-	public String getDescription() {
-		return this.description;
+	public String getLabel() {
+		return this.label;
 	}
-
-	public int maxAllowedArgs() {
-		return this.maxArgs;
+	
+	public OpsCommand getCmd() {
+		return this.cmd;
 	}
-
-	public boolean isAdminCmd() {
-		return this.isAdmin;
-	}
-
+	
 }

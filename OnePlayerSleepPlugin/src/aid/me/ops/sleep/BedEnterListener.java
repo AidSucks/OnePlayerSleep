@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent.BedEnterResult;
 
 import aid.me.ops.OpsPlugin;
-import aid.me.ops.util.ConfigurationManager;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class BedEnterListener implements Listener{
 	
@@ -15,7 +15,7 @@ public class BedEnterListener implements Listener{
 	public void onBedEnter(PlayerBedEnterEvent e) {
 		
 		SleepManager mang = OpsPlugin.getSleepManager();
-		ConfigurationManager data = OpsPlugin.getConfigManager();
+		OpsDataConfig data = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 		
 		//Check to see if the plugin is enabled, and the BedResult is OK
 		if(!data.getEnabled() || !e.getBedEnterResult().equals(BedEnterResult.OK)) {

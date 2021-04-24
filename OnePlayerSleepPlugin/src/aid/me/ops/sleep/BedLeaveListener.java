@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 
 import aid.me.ops.OpsPlugin;
-import aid.me.ops.util.ConfigurationManager;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class BedLeaveListener implements Listener{
 	
@@ -14,7 +14,7 @@ public class BedLeaveListener implements Listener{
 	public void onBedLeave(PlayerBedLeaveEvent e) {
 
 		SleepManager mang = OpsPlugin.getSleepManager();
-		ConfigurationManager data = OpsPlugin.getConfigManager();
+		OpsDataConfig data = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 		
 		//Check to see if either the plugin isn't enabled, or the player or Bukkit Task don't exist yet
 		if(!data.getEnabled()) {

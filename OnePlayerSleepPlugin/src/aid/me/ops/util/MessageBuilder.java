@@ -6,10 +6,11 @@ import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.sleep.SleepManager;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class MessageBuilder {
 	
-	private ConfigurationManager config = OpsPlugin.getConfigManager();
+	private OpsDataConfig config = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 	private SleepManager sleepMang = OpsPlugin.getSleepManager();
 	private HashMap<String, String> messageMap = new HashMap<String, String>();
 	

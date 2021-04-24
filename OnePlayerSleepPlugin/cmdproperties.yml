@@ -1,0 +1,51 @@
+ops:
+    name: "ops"
+    usage: "/ops"
+    perm: "ops.help"
+    desc: "Default OPS Command"
+    maxargs: -1
+    admin: false
+    subargs: []  
+duration:
+    name: "duration"
+    usage: "/ops duration [set <ticks>]"
+    perm: "ops.set.duration"
+    desc: "Sets or outputs the current duration in ticks"
+    maxargs: 2
+    admin: false
+    subargs:
+        - "set"        
+enabled:
+    name: "enabled"
+    usage: "/ops enabled [set <true|false>]"
+    perm: "ops.set.enabled"
+    desc: "Sets or outputs the current state of the plugin"
+    maxargs: 2
+    admin: false
+    subargs:
+        - "set"
+weather:
+    name: "weather"
+    usage: "/ops weather [set <true|false>]"
+    perm: "ops.set.weather"
+    desc: "Sets or outputs whether or not the weather is affected by sleeping"
+    maxargs: 2
+    admin: false
+    subargs:
+        - "set"
+reload:
+    name: "reload"
+    usage: "/ops reload"
+    perm: "ops.admin.reload"
+    desc: "Reloads the OPS data.yml"
+    maxargs: 0
+    admin: true
+    subargs: []
+revoke:
+    name: "revoke"
+    usage: "/ops revoke <player>"
+    perm: "ops.admin.revoke"
+    desc: "Forbids the given player from sleeping"
+    maxargs: 1
+    admin: true
+    subargs: []

@@ -1,21 +1,17 @@
 package aid.me.ops;
 
+import java.util.ArrayList;
+
 import org.bukkit.plugin.PluginManager;
 
 import aid.me.ops.command.CommandManager;
 import aid.me.ops.sleep.SleepManager;
-import aid.me.ops.util.ConfigurationManager;
 import aid.me.ops.util.MessageManager;
-import aid.me.ops.command.DurationCmd;
-import aid.me.ops.command.EnabledCmd;
-import aid.me.ops.command.OpsCmd;
-import aid.me.ops.command.OpsCommand;
-import aid.me.ops.command.ReloadCmd;
-import aid.me.ops.command.WeatherCmd;
-import aid.me.ops.command.admin.RevokeCmd;
+import aid.me.ops.util.config.OpsCommandConfig;
+import aid.me.ops.util.config.OpsConfiguration;
+import aid.me.ops.util.config.OpsDataConfig;
 import aid.me.ops.sleep.BedEnterListener;
 import aid.me.ops.sleep.BedLeaveListener;
-
 
 public class OpsPlugin {
 	
@@ -25,7 +21,7 @@ public class OpsPlugin {
 	private static CommandManager cmdMang; 
 	private static SleepManager sleepMang;
 	private static MessageManager messageMang;
-	private static ConfigurationManager configMang;
+	private static ArrayList<OpsConfiguration> configurations;
 	
 	private OpsPlugin() {}
 	
@@ -36,13 +32,6 @@ public class OpsPlugin {
 	
 	public static PluginMain getPlugin() {
 		return plugin;
-	}
-	
-	public static ConfigurationManager getConfigManager() {
-		if(configMang == null) {
-			configMang = new ConfigurationManager();
-		}
-		return configMang;
 	}
 	
 	public static CommandManager getCommandManager() {
@@ -66,6 +55,15 @@ public class OpsPlugin {
 		}
 		return messageMang;
 	}
+	
+	public static OpsConfiguration getConfig(String fileName) {
+		for(OpsConfiguration cfg : configurations) {
+			if(cfg.getFileName() == fileName) {
+				return cfg;
+			}
+		}
+		return null;
+	}
 		
 //Registry Methods
 	
@@ -84,13 +82,24 @@ public class OpsPlugin {
 		return;
 	}
 	
+	public static void initConfigs() {
+		
+		configurations = new ArrayList<OpsConfiguration>();
+		
+		OpsConfiguration[] configs = {
+				new OpsDataConfig("data.yml", false), 
+				new OpsCommandConfig("cmdproperties.yml", true)};
+		
+		for(OpsConfiguration cfg : configs) {
+			configurations.add(cfg);
+		}
+		
+		getPlugin().getLogger().info("All configurations initialized!");
+	}
+	
 	//Registers all command classes
 	public static void initCommands() {
 		
-		OpsCommand[] cmds = {new ReloadCmd(), new EnabledCmd(), new WeatherCmd(),
-				 new DurationCmd(), new RevokeCmd(), new OpsCmd()};
-		
-		getCommandManager().addCommands(cmds);
 		getPlugin().getCommand("ops").setExecutor(getCommandManager());
 		
 		getPlugin().getLogger().info("All commands initialized!");
