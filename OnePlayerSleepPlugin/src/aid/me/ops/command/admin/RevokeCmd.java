@@ -3,6 +3,7 @@ package aid.me.ops.command.admin;
 import org.bukkit.command.CommandSender;
 
 import aid.me.ops.command.OpsCommand;
+import aid.me.ops.command.OpsCommandType;
 
 public class RevokeCmd extends OpsCommand{
 
@@ -14,23 +15,8 @@ public class RevokeCmd extends OpsCommand{
 	}
 
 	@Override
-	public String getName() {
-		return "revoke";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.admin.revoke";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 1;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return true;
+	public OpsCommandType getType() {
+		return OpsCommandType.REVOKE;
 	}
 
 }
