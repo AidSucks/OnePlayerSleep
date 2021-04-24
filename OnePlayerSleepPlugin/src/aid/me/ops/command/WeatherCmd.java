@@ -41,23 +41,8 @@ public class WeatherCmd extends OpsCommand{
 	}
 
 	@Override
-	public String getName() {
-		return "weather";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.set.weather";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 2;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
+	public OpsCommandType getType() {
+		return OpsCommandType.WEATHER;
 	}
 
 }

@@ -40,25 +40,10 @@ public class EnabledCmd extends OpsCommand{
 		super.msgMang.sendMessage("messages.success.setenabled");
 		return;
 	}
-	
-	@Override
-	public String getName() {
-		return "enabled";
-	}
 
 	@Override
-	public String getPermission() {
-		return "ops.set.enabled";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 2;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
+	public OpsCommandType getType() {
+		return OpsCommandType.ENABLED;
 	}
 
 }

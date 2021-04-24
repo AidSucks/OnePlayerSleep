@@ -16,23 +16,8 @@ public class ReloadCmd extends OpsCommand{
 	}
 
 	@Override
-	public String getName() {
-		return "reload";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.admin.reload";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 0;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
+	public OpsCommandType getType() {
+		return OpsCommandType.RELOAD;
 	}
 
 }
