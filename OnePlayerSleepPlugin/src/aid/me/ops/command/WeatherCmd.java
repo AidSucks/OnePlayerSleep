@@ -10,13 +10,12 @@ public class WeatherCmd extends OpsCommand{
 		boolean isEnabled;
 		super.cmdMang.setCurrentPlayer(sender);
 		
-		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
+		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.weather");
 			return;
 		}
 		
-		if(args.length == 2 || args[2] == null) {
-			super.msgMang.sendMessage("messages.error.notenoughargs");
+		if(!super.cmdConfig.getSubArgs(OpsCommandType.WEATHER.getLabel()).contains(args[1])) {
 			return;
 		}
 		

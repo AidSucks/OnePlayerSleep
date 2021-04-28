@@ -27,4 +27,13 @@ public enum OpsCommandType {
 		return this.cmd;
 	}
 	
+	public static OpsCommandType getByLabel(String l) {
+		for(OpsCommandType t : values()) {
+			if(t.getLabel().equals(l)) {
+				return t;
+			}
+		}
+		return OPS;
+	}
+	
 }

@@ -14,7 +14,7 @@ duration:
     maxargs: 2
     admin: false
     subargs:
-        - "set"        
+        - set        
 enabled:
     name: "enabled"
     usage: "/ops enabled [set <true|false>]"
@@ -23,7 +23,7 @@ enabled:
     maxargs: 2
     admin: false
     subargs:
-        - "set"
+        - set
 weather:
     name: "weather"
     usage: "/ops weather [set <true|false>]"
@@ -32,7 +32,7 @@ weather:
     maxargs: 2
     admin: false
     subargs:
-        - "set"
+        - set
 reload:
     name: "reload"
     usage: "/ops reload"

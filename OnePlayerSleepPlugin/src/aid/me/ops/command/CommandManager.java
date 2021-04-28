@@ -39,31 +39,35 @@ public class CommandManager implements CommandExecutor{
 		OpsCommandType commandType = OpsCommandType.OPS;
 		
 		//Check if this command is not an ops command
-		if(label.toLowerCase() != commandType.getLabel()) return true;
+		if(!(label.equalsIgnoreCase(commandType.getLabel()))) {
+			sender.sendMessage(label);
+			return true;
+		}
 		
 		this.setCurrentPlayer(sender);
 		
-		if(args[0] != null) {
-			for(OpsCommandType type : OpsCommandType.values()) {
-				if(args[0].toLowerCase() == cmdConfig.getName(type.getLabel())) {
-					commandType = type;
-				}
-			}
+		if(args.length > 0) {
+			commandType = OpsCommandType.getByLabel(args[0].toLowerCase());
 		}
 		
 		if(!sender.hasPermission(cmdConfig.getPermission(commandType.getLabel()))) {
 			MSG.sendMessage("messages.error.permission");
 			return true;
 		}
-		else if(args.length > cmdConfig.getMaxArgs(commandType.getLabel()) + 1) {
+		
+		if(args.length > cmdConfig.getMaxArgs(commandType.getLabel()) + 1) {
 			MSG.sendMessage("messages.error.toomanyargs");
 			return true;
 		}
-		else {
-			//Run the specified command
-			commandType.getCmd().onCommand(sender, args);
+		
+		if(!(cmdConfig.getSubArgs(commandType.getLabel()).isEmpty()) && args.length == 2) {
+			MSG.sendMessage("messages.error.notenoughargs");
 			return true;
 		}
+		
+		//Run the specified command
+		commandType.getCmd().onCommand(sender, args);
+		return true;
 		
 	}
 

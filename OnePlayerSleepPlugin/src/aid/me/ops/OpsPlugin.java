@@ -10,6 +10,7 @@ import aid.me.ops.util.MessageManager;
 import aid.me.ops.util.config.OpsCommandConfig;
 import aid.me.ops.util.config.OpsConfiguration;
 import aid.me.ops.util.config.OpsDataConfig;
+import aid.me.ops.util.config.TabCompleteListener;
 import aid.me.ops.sleep.BedEnterListener;
 import aid.me.ops.sleep.BedLeaveListener;
 
@@ -101,6 +102,7 @@ public class OpsPlugin {
 	public static void initCommands() {
 		
 		getPlugin().getCommand("ops").setExecutor(getCommandManager());
+		getPlugin().getCommand("ops").setTabCompleter(new TabCompleteListener());
 		
 		getPlugin().getLogger().info("All commands initialized!");
 	}

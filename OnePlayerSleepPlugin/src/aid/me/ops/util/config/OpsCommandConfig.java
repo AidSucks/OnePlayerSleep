@@ -33,6 +33,6 @@ public class OpsCommandConfig extends OpsConfiguration {
 	}
 	
 	public List<String> getSubArgs(String cmdName) {
-		return this.get().getStringList(cmdName + "subargs");
+		return this.get().getStringList(cmdName + ".subargs");
 	}
 }

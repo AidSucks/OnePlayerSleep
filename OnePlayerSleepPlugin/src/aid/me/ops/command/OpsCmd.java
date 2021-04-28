@@ -12,8 +12,8 @@ public class OpsCmd extends OpsCommand{
 		sender.sendMessage(ChatColor.DARK_PURPLE + "One Player Sleep Commands:");
 		for(OpsCommandType type : OpsCommandType.values()) {
 			sender.sendMessage(ChatColor.GREEN + 
-					super.cmdConfig.getName(type.getLabel()) + " - " +
-					super.cmdConfig.getUsage(type.getLabel()));
+					super.cmdConfig.getUsage(type.getLabel()) + " - " +
+					super.cmdConfig.getDescription(type.getLabel()));
 		}
 		return;
 	}

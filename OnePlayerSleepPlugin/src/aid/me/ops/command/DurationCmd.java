@@ -9,13 +9,12 @@ public class DurationCmd extends OpsCommand{
 		
 		super.cmdMang.setCurrentPlayer(sender);
 		
-		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
+		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.duration");
 			return;
 		}
 		
-		if(args.length == 2 || args[2] == null) {
-			super.msgMang.sendMessage("messages.error.notenoughargs");
+		if(!super.cmdConfig.getSubArgs(OpsCommandType.DURATION.getLabel()).contains(args[1])) {
 			return;
 		}
 		
