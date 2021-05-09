@@ -91,7 +91,7 @@ public class OpsPlugin {
 		OpsConfiguration[] configs = {
 				new OpsDataConfig("data.yml", false), 
 				new OpsCommandConfig("cmdproperties.yml", true),
-				new OpsPlayerConfig("playerdata.yml", true)};
+				new OpsPlayerConfig("playerdata.yml", false)};
 		
 		for(OpsConfiguration cfg : configs) {
 			configurations.add(cfg);

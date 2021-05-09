@@ -62,8 +62,8 @@ public class OpsConfiguration {
 	}
 	
 	public void save() {
+		//TODO Add functionality
 		if(isResource) {
-			plugin.saveResource(fileName, true);
 			return;
 		}
 		if(!configurationFile.exists()) {

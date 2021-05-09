@@ -53,8 +53,6 @@ public class CommandManager implements CommandExecutor{
 		this.setCurrentPlayer(sender);
 		String cmdName = commandType.getLabel();
 		
-		sender.sendMessage(cmdName);
-		
 		if(args.length > 0) {
 			commandType = OpsCommandType.getByLabel(args[0].toLowerCase());
 		}

@@ -24,7 +24,9 @@ public class BedEnterListener implements Listener{
 		}
 		
 		if(pCfg.getRevokedList().contains(e.getPlayer().getUniqueId())) {
+			e.setCancelled(true);
 			OpsPlugin.getMessageManager().sendMessage("messages.error.cannotsleep");
+			return;
 		}
 
 		//Execute sleep cycle code
