@@ -1,10 +1,10 @@
 package aid.me.ops.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
-
 import aid.me.ops.OpsPlugin;
+import aid.me.ops.player.OpsPlayer;
 import aid.me.ops.sleep.SleepManager;
 import aid.me.ops.util.config.OpsDataConfig;
 
@@ -25,23 +25,34 @@ public class MessageBuilder {
 		
 		String finalizedText = "";
 		
-		CraftPlayer[] players = 
-				sleepMang.getSleepingPlayers().keySet().toArray(new CraftPlayer[sleepMang.getSleepingPlayers().size()]);
+		ArrayList<OpsPlayer> players = this.sleepMang.getSleepingPlayers();
 		
-		if(players.length == 0) {
+		if(players.isEmpty()) {
 			return finalizedText;
 		}
 		
-		if(players.length > 1) {
-			for(int x = 0; x < players.length; x++) {
-				if(x == players.length - 1) {
-					finalizedText = finalizedText.concat("and " + players[x].getName());
-					break;
-				}
-				finalizedText = finalizedText.concat(players[x].getName() + ", ");
+		//Cached index of last player
+		int lastIndex = players.size() - 1;
+		
+		for(OpsPlayer p : players) {
+			
+			//Get player name of current cycle
+			String pName = p.getPlayer().getName();
+			//Get current index each cycle
+			int currIndex = players.indexOf(p);
+			
+			//Only one player
+			if(lastIndex == 0) {
+				finalizedText = finalizedText.concat(pName);
+				break;
 			}
-		}else {
-			finalizedText = finalizedText.concat(players[0].getName());
+			//Last Player
+			if(currIndex == lastIndex) {
+				finalizedText = finalizedText.concat("and " + pName);
+				break;
+			}
+			//Any other player
+			finalizedText = finalizedText.concat(pName + ", ");
 		}
 		
 		return finalizedText;

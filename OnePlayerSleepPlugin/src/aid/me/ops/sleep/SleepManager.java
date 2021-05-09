@@ -1,61 +1,46 @@
 package aid.me.ops.sleep;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.PluginMain;
+import aid.me.ops.player.OpsPlayer;
 import aid.me.ops.util.config.OpsDataConfig;
 
 public class SleepManager {
 	
 	//VARIABLES
 	private PluginMain pl = OpsPlugin.getPlugin();
-	private static HashMap<CraftPlayer, BukkitTask> sleepingPlayers;
-	private BukkitTask bukkitTask;
+	private static ArrayList<OpsPlayer> sleepingPlayers;
+	private BukkitTask globalSleepTask;
 	private OpsDataConfig dataConfig = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 	
 	//CONSTRUCTOR
 	public SleepManager() {
-	    this.initSleepingPlayersArray();
-	}
-	
-	private void initSleepingPlayersArray() {
-	    if(sleepingPlayers == null) {
-	    	sleepingPlayers = new HashMap<CraftPlayer, BukkitTask>();
+		//Initialize list
+		if(sleepingPlayers == null) {
+	    	sleepingPlayers = new ArrayList<OpsPlayer>();
 	    }
 	}
 	
 	//GETTERS
-	public HashMap<CraftPlayer, BukkitTask> getSleepingPlayers() {
+	public ArrayList<OpsPlayer> getSleepingPlayers() {
 		return sleepingPlayers;
 	}
 
-	public BukkitTask getBukkitTask() {
-		return this.bukkitTask;
+	public BukkitTask getGlobalTask() {
+		return this.globalSleepTask;
 	}
 	
-	
-	//SETTERS
-	public void setSleepTicks(int ticks, CraftPlayer pl) {
-		pl.getHandle().sleepTicks = ticks;
-		return;
-	}
-
-	//METHODS
-	private void wakeupPlayer(CraftPlayer pl) {
-		this.setSleepTicks(99, pl);
-		return;
-	}
-	
-	public void startSleep(World world) {
+	public void startGlobalSleep(World world) {
 		
 	    //Schedules a new Bukkit Task to be run after the duration in ticks
-	    this.bukkitTask = new BukkitRunnable() {
+	    this.globalSleepTask = new BukkitRunnable() {
 			
 		public void run() {
 		    world.setTime(0);
@@ -67,7 +52,7 @@ public class SleepManager {
 		    }
 			
 		    OpsPlugin.getMessageManager().broadcastMessage("messages.success.slept");
-		    stopSleep();
+		    stopGlobalSleep();
 		}
 
 	    }.runTaskLater(this.pl, dataConfig.getDuration());
@@ -76,14 +61,12 @@ public class SleepManager {
 	}
 	
 	//Interrupts everyone's sleep cycle
-	public void stopSleep() {
+	public void stopGlobalSleep() {
 		
-		this.bukkitTask.cancel();
+		this.globalSleepTask.cancel();
 			
-		CraftPlayer[] players = sleepingPlayers.keySet().toArray(new CraftPlayer[sleepingPlayers.size()]);
-		
-		for(CraftPlayer p : players) {
-			this.removeSleepingPlayer(p);
+		for(OpsPlayer player : sleepingPlayers) {
+			player.wake();
 		}
 		
 		sleepingPlayers.clear();
@@ -92,34 +75,22 @@ public class SleepManager {
 	
 	//TODO If I decide to add a command to allow an operator to kick someone out of bed
 	//then, I can just check in the command class whether or not the player is in the sleepingPlayers Map
-	public void addSleepingPlayer(CraftPlayer pl) {
-		
-		BukkitTask tempTimer = new BukkitRunnable() {
-	
-			public void run() {
-				setSleepTicks(0, pl);
-			}
-			
-		}.runTaskTimer(this.pl, 0, 1);
-		
-		sleepingPlayers.put(pl, tempTimer);
+	public void addPlayer(Player p) {
+		OpsPlayer player = new OpsPlayer(p);
+		sleepingPlayers.add(player);
+		player.sleep();
 		return;
 	}
 	
 	//Used to remove only one player
-	public void removeSleepingPlayer(CraftPlayer pl) {
-		
-		try {
-		
-			sleepingPlayers.get(pl).cancel();
-			sleepingPlayers.remove(pl);
-			
-		}catch(IllegalStateException ex) {
-			ex.printStackTrace();
+	public void removePlayer(Player p) {
+		for(OpsPlayer player : sleepingPlayers) {
+			if(player.getPlayer() == p) {
+				player.wake();
+				sleepingPlayers.remove(player);
+				return;
+			}
 		}
-		
-		this.wakeupPlayer(pl);
-		return;
 	}
 	
 }

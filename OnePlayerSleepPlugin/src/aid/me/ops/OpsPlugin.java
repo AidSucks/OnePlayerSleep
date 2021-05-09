@@ -10,6 +10,7 @@ import aid.me.ops.util.MessageManager;
 import aid.me.ops.util.config.OpsCommandConfig;
 import aid.me.ops.util.config.OpsConfiguration;
 import aid.me.ops.util.config.OpsDataConfig;
+import aid.me.ops.util.config.OpsPlayerConfig;
 import aid.me.ops.util.config.TabCompleteListener;
 import aid.me.ops.sleep.BedEnterListener;
 import aid.me.ops.sleep.BedLeaveListener;
@@ -89,7 +90,8 @@ public class OpsPlugin {
 		
 		OpsConfiguration[] configs = {
 				new OpsDataConfig("data.yml", false), 
-				new OpsCommandConfig("cmdproperties.yml", true)};
+				new OpsCommandConfig("cmdproperties.yml", true),
+				new OpsPlayerConfig("playerdata.yml", true)};
 		
 		for(OpsConfiguration cfg : configs) {
 			configurations.add(cfg);
@@ -106,5 +108,4 @@ public class OpsPlugin {
 		
 		getPlugin().getLogger().info("All commands initialized!");
 	}
-	
 }

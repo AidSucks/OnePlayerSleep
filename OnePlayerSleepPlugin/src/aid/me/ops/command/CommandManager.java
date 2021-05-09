@@ -45,22 +45,23 @@ public class CommandManager implements CommandExecutor{
 		}
 		
 		this.setCurrentPlayer(sender);
+		String cmdName = commandType.getLabel();
 		
 		if(args.length > 0) {
 			commandType = OpsCommandType.getByLabel(args[0].toLowerCase());
 		}
 		
-		if(!sender.hasPermission(cmdConfig.getPermission(commandType.getLabel()))) {
+		if(!sender.hasPermission(cmdConfig.getPermission(cmdName))) {
 			MSG.sendMessage("messages.error.permission");
 			return true;
 		}
 		
-		if(args.length > cmdConfig.getMaxArgs(commandType.getLabel()) + 1) {
+		if(args.length > cmdConfig.getMaxArgs(cmdName) + 1) {
 			MSG.sendMessage("messages.error.toomanyargs");
 			return true;
 		}
 		
-		if(!(cmdConfig.getSubArgs(commandType.getLabel()).isEmpty()) && args.length == 2) {
+		if(!(cmdConfig.getSubArgs(cmdName).isEmpty()) && args.length == 2) {
 			MSG.sendMessage("messages.error.notenoughargs");
 			return true;
 		}
