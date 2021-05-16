@@ -14,6 +14,8 @@ public class TabCompleteListener implements TabCompleter{
 	
 	private OpsCommandConfig cmdConfig = (OpsCommandConfig) OpsPlugin.getConfig("cmdproperties.yml");
 
+	//TODO, Rework and rewrite this tab completer. Right now, it only functions as a simple witch case,
+	//possibly create a map in cmdproperties.yml that has completions for each field?
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		

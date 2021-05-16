@@ -61,9 +61,10 @@ public class MessageBuilder {
 	//Logic for updating the messageMap
 	private void updateValues() {
 		
+		//TODO Find a better way of implementing this
 		String[] values = {
 			OpsPlugin.getPlugin().getName(),
-			OpsPlugin.getCommandManager().getCurrPlayer().getName(), 
+			OpsPlugin.getMessageManager().getRecipient().getName(), 
 			this.buildSleepString(),
 			String.valueOf(config.getEnabled()), 
 			String.valueOf(config.getWeather()), 
@@ -85,6 +86,7 @@ public class MessageBuilder {
 	}
 }
 
+//Nested enum which has an index of every key that should be replaced
 enum MessageKey {
 	
 	PLUGIN("{plugin}"),
@@ -103,4 +105,6 @@ enum MessageKey {
 	public String getLabel() {
 		return this.label;
 	}
+	
+	//Could use a switch statement, but then would have to add a new value every time a new key is added.
 }

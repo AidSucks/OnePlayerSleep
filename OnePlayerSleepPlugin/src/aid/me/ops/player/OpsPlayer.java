@@ -1,6 +1,8 @@
 package aid.me.ops.player;
 
+//For future updates, the only import that needs to be updated is this one
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;

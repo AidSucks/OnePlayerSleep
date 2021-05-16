@@ -18,6 +18,8 @@ public class BedEnterListener implements Listener{
 		OpsDataConfig data = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 		OpsPlayerConfig pCfg = (OpsPlayerConfig) OpsPlugin.getConfig("playerdata.yml");
 		
+		OpsPlugin.getMessageManager().setRecipient(e.getPlayer());
+		
 		//Check to see if the plugin is enabled, and the BedResult is OK
 		if(!data.getEnabled() || !e.getBedEnterResult().equals(BedEnterResult.OK)) {
 			return;

@@ -8,7 +8,6 @@ public class WeatherCmd extends OpsCommand{
 	public void onCommand(CommandSender sender, String[] args) {
 		
 		boolean isEnabled;
-		super.cmdMang.setCurrentPlayer(sender);
 		
 		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.weather");

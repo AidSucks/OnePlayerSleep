@@ -7,8 +7,6 @@ public class DurationCmd extends OpsCommand{
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		
-		super.cmdMang.setCurrentPlayer(sender);
-		
 		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.duration");
 			return;

@@ -29,10 +29,11 @@ public enum OpsCommandType {
 	
 	public static OpsCommandType getByLabel(String l) {
 		for(OpsCommandType t : values()) {
-			if(t.getLabel().equals(l)) {
+			if(t.getLabel().equalsIgnoreCase(l)) {
 				return t;
 			}
 		}
+		//If not found, return default command
 		return OPS;
 	}
 	

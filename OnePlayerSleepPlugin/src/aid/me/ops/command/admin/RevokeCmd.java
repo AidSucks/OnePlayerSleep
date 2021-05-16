@@ -13,8 +13,6 @@ public class RevokeCmd extends OpsCommand{
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		
-		super.cmdMang.setCurrentPlayer(sender);
-		
 		if(args.length == 1) {
 			msgMang.sendMessage("messages.error.notenoughargs");
 			return;
