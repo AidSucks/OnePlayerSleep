@@ -1,13 +1,13 @@
 package aid.me.ops.sleep;
 
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent.BedEnterResult;
 
 import aid.me.ops.OpsPlugin;
-import aid.me.ops.util.ConfigurationManager;
+import aid.me.ops.util.config.OpsDataConfig;
+import aid.me.ops.util.config.OpsPlayerConfig;
 
 public class BedEnterListener implements Listener{
 	
@@ -15,18 +15,27 @@ public class BedEnterListener implements Listener{
 	public void onBedEnter(PlayerBedEnterEvent e) {
 		
 		SleepManager mang = OpsPlugin.getSleepManager();
-		ConfigurationManager data = OpsPlugin.getConfigManager();
+		OpsDataConfig data = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
+		OpsPlayerConfig pCfg = (OpsPlayerConfig) OpsPlugin.getConfig("playerdata.yml");
+		
+		OpsPlugin.getMessageManager().setRecipient(e.getPlayer());
 		
 		//Check to see if the plugin is enabled, and the BedResult is OK
 		if(!data.getEnabled() || !e.getBedEnterResult().equals(BedEnterResult.OK)) {
 			return;
 		}
+		
+		if(pCfg.getRevokedList().contains(e.getPlayer().getUniqueId())) {
+			e.setCancelled(true);
+			OpsPlugin.getMessageManager().sendMessage("messages.error.cannotsleep");
+			return;
+		}
 
 		//Execute sleep cycle code
-		mang.addSleepingPlayer((CraftPlayer) e.getPlayer());
+		mang.addPlayer(e.getPlayer());
 		
 		if(mang.getSleepingPlayers().size() <= 1) {
-			mang.startSleep(e.getPlayer().getWorld());
+			mang.startGlobalSleep(e.getPlayer().getWorld());
 		}
 			
 		return;

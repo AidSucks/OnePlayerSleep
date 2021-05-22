@@ -8,15 +8,13 @@ public class WeatherCmd extends OpsCommand{
 	public void onCommand(CommandSender sender, String[] args) {
 		
 		boolean isEnabled;
-		super.cmdMang.setCurrentPlayer(sender);
 		
-		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
+		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.weather");
 			return;
 		}
 		
-		if(args.length == 2 || args[2] == null) {
-			super.msgMang.sendMessage("messages.error.notenoughargs");
+		if(!super.cmdConfig.getSubArgs(OpsCommandType.WEATHER.getLabel()).contains(args[1])) {
 			return;
 		}
 		
@@ -35,29 +33,9 @@ public class WeatherCmd extends OpsCommand{
 		}
 		
 		super.config.setWeather(isEnabled);
-		super.config.saveDataConfig();
+		super.config.save();
 		super.msgMang.sendMessage("messages.success.setweather");
 		return;
-	}
-
-	@Override
-	public String getName() {
-		return "weather";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.set.weather";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 2;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
 	}
 
 }

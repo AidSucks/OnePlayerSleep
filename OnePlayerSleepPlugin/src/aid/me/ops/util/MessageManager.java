@@ -4,94 +4,58 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.command.CommandSender;
 
 import aid.me.ops.OpsPlugin;
-import aid.me.ops.sleep.SleepManager;
+import aid.me.ops.util.config.OpsDataConfig;
 
 public class MessageManager {
 	
-	private ConfigurationManager config = OpsPlugin.getConfigManager();
-	private SleepManager mang = OpsPlugin.getSleepManager();
+	//Class wide variables
+	private MessageBuilder builder = new MessageBuilder();
+	private OpsDataConfig config = (OpsDataConfig) OpsPlugin.getConfig("data.yml");
 	
-	private HashMap<String, String> keyTerms = new HashMap<String, String>();
+	private static CommandSender messageRecipient;
 	
-	private void updateMapValues() {
-		
-		
-		keyTerms.clear();
-		String[] terms = {"{plugin}", "{player}", "{sPlayer}" , "{enabled}", "{weather}", "{duration}"};
-		
-		Object[] vals = 
-			{
-				OpsPlugin.getPlugin().getName(),
-				OpsPlugin.getCommandManager().getCurrPlayer().getName(), 
-				this.getSleepingString(),
-				config.getEnabled(), 
-				config.getWeather(), 
-				config.getDuration()
-			};
-		
-		for(int i = 0; i < terms.length; i++) {
-			if(vals[i] == null) {
-				keyTerms.put(terms[i], "");
-			}
-			
-			keyTerms.put(terms[i], vals[i].toString());
+	//Returns the current recipient, if null, returns the Console as a default
+	public CommandSender getRecipient() {
+		if(messageRecipient == null) {
+			return Bukkit.getConsoleSender();
 		}
-		
+		return messageRecipient;
+	}
+	
+	//Sets the recipient of the next message
+	public void setRecipient(CommandSender sender) {
+		messageRecipient = sender;
 		return;
 	}
 	
-
-	public String getSleepingString() {
-		
-		String text = "";
-		
-		CraftPlayer[] players = mang.getSleepingPlayers().keySet().toArray(new CraftPlayer[mang.getSleepingPlayers().size()]);
-		
-		if(players.length == 1) {
-			text = players[0].getName();
-			return text;
-		}
-		
-		for(int i = 0; i < players.length; i++) {
-			if(i == players.length - 1) {
-				text = text + players[i].getName();
-				break;
-			}
-			text = text + players[i].getName() + ", ";
-		}
-		
-		return text;
-	}
-
-	
-	public HashMap<String, String> getTermsMap() {
-		this.updateMapValues();
-		return keyTerms;
-	}
-	
+	//Wrapper methods
+	//Broadcasts a message to the server given a yml path
 	public void broadcastMessage(String path) {
 		Bukkit.getServer().broadcastMessage(formatMessage(getRawMsg(path)));
 	}
 	
+	//Sends a message to the current recipient privately given a yml path
 	public void sendMessage(String path) {	
-		OpsPlugin.getCommandManager().getCurrPlayer().sendMessage(formatMessage(getRawMsg(path)));
+		getRecipient().sendMessage(formatMessage(getRawMsg(path)));
 		return;
 	}
 	
+	//Returns the raw string provided a yml path
 	public String getRawMsg(String path) {
 		String msg = "";
-		if(config.getDataConfig().getString(path) != null) {
-			msg = config.getDataConfig().getString(path);
+		if(config.get().getString(path) != null) {
+			msg = config.get().getString(path);
 		}
 		return msg;
 	}
 	
+	//Sends back a formatted message given the raw string to format
 	public String formatMessage(String msg) {
 		
-		this.updateMapValues();
+		HashMap<String, String> keyTerms = builder.getMessageMap();
 		
 		for(String x : keyTerms.keySet()) {
 			msg = msg.replace(x, keyTerms.get(x));
@@ -102,6 +66,7 @@ public class MessageManager {
 		return msg;
 	}
 	
+	//Wrapper for formatting color codes
 	public String formatColor(String msg) {
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}

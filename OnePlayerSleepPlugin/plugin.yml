@@ -1,6 +1,6 @@
 main: aid.me.ops.PluginMain
 name: OnePlayerSleep
-version: 2.8-1.16.5
+version: 2.9-1.16.5
 api-version: 1.16
 commands:
     ops:

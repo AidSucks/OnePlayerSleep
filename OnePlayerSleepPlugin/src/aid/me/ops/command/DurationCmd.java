@@ -7,22 +7,19 @@ public class DurationCmd extends OpsCommand{
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		
-		super.cmdMang.setCurrentPlayer(sender);
-		
-		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
+		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.duration");
 			return;
 		}
 		
-		if(args.length == 2 || args[2] == null) {
-			super.msgMang.sendMessage("messages.error.notenoughargs");
+		if(!super.cmdConfig.getSubArgs(OpsCommandType.DURATION.getLabel()).contains(args[1])) {
 			return;
 		}
 		
 		try {
 			long duration = Integer.parseInt(args[2]);
 			super.config.setDuration(duration);
-			super.config.saveDataConfig();
+			super.config.save();
 			super.msgMang.sendMessage("messages.success.setduration");
 			return;
 		}catch(NumberFormatException e) {
@@ -30,26 +27,6 @@ public class DurationCmd extends OpsCommand{
 			return;
 		}
 		
-	}
-
-	@Override
-	public String getName() {
-		return "duration";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.set.duration";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 2;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
 	}
 
 }

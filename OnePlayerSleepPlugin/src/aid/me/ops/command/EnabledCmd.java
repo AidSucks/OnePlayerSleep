@@ -8,15 +8,13 @@ public class EnabledCmd extends OpsCommand{
 	public void onCommand(CommandSender sender, String[] args) {
 		
 		boolean isEnabled;
-		super.cmdMang.setCurrentPlayer(sender);
 		
-		if(args.length == 1 || args[1] == null || !args[1].equalsIgnoreCase("set")) {
+		if(args.length == 1) {
 			super.msgMang.sendMessage("messages.success.enabled");
 			return;
 		}
 
-		if(args.length == 2 || args[2] == null) {
-			super.msgMang.sendMessage("messages.error.notenoughargs");
+		if(!super.cmdConfig.getSubArgs(OpsCommandType.ENABLED.getLabel()).contains(args[1])) {
 			return;
 		}
 				
@@ -36,29 +34,9 @@ public class EnabledCmd extends OpsCommand{
 
 			
 		super.config.setEnabled(isEnabled);
-		super.config.saveDataConfig();
+		super.config.save();
 		super.msgMang.sendMessage("messages.success.setenabled");
 		return;
-	}
-	
-	@Override
-	public String getName() {
-		return "enabled";
-	}
-
-	@Override
-	public String getPermission() {
-		return "ops.set.enabled";
-	}
-
-	@Override
-	public int maxAllowedArgs() {
-		return 2;
-	}
-
-	@Override
-	public boolean isAdminCmd() {
-		return false;
 	}
 
 }

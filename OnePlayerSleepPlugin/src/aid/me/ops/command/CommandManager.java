@@ -1,102 +1,66 @@
 package aid.me.ops.command;
 
-import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import aid.me.ops.OpsPlugin;
 import aid.me.ops.util.MessageManager;
+import aid.me.ops.util.config.OpsCommandConfig;
 
 public class CommandManager implements CommandExecutor{
 
 	//VARIABLES
-	private ArrayList<OpsCommand> commands;
 	private MessageManager MSG = OpsPlugin.getMessageManager();
-	private CommandSender currentPlayer;
-
-	
-	//CONSTRUCTOR
-	public CommandManager() {
-		if(this.commands == null) {
-			this.commands = new ArrayList<OpsCommand>();
-		}
-	}
-	
-	
-	//GETTERS
-	public CommandSender getCurrPlayer() {
-		if(this.currentPlayer == null) {
-			return Bukkit.getServer().getConsoleSender();
-		}
-		return this.currentPlayer;
-	}
-	
-	public ArrayList<OpsCommand> getCommands() {
-		return this.commands;
-	}
-	
-	
-	//UTIL
-	public void addCommands(OpsCommand[] cmds) {
-		for(OpsCommand cmd : cmds) {
-			commands.add(cmd);
-		}
-	}
-	
-	public void setCurrentPlayer(CommandSender currPlayer) {
-		this.currentPlayer = currPlayer;
-		return;
-	}
-
-	
+	private OpsCommandConfig cmdConfig = (OpsCommandConfig) OpsPlugin.getConfig("cmdproperties.yml");
 	
 	//MAIN METHOD
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		this.setCurrentPlayer(sender);
+		OpsCommandType commandType = OpsCommandType.OPS;
 		
-		boolean isOpsCmd = false;
-		OpsCommand command = null;
-		
-		if(args.length >= 1 && args[0] != null) {
-			//Loop through the names of registered commands and 
-			for(OpsCommand opscmd : commands) {
-				String x = args[0];
-				String cmdName = opscmd.getName();
-			
-				//If the command is found, set it to the var command
-				if(x.equalsIgnoreCase(cmdName)) {
-					command = opscmd;
-					isOpsCmd = true;
-					break;
-				}
-			}
-		}
-		else {
-			command = new OpsCmd();
-			isOpsCmd = true;
+		//Check if this command is not an ops command
+		if(!(label.equalsIgnoreCase(commandType.getLabel()))) {
+			sender.sendMessage(label);
+			return true;
 		}
 		
-		//Check if this is not a command
-		if(!isOpsCmd) return true;
+		//Set current recipient
+		MSG.setRecipient(sender);
 		
-		if(!sender.hasPermission(command.getPermission())) {
+		//Find command derived from args[0], if not found, return type OPS
+		if(args.length > 0) {
+			commandType = OpsCommandType.getByLabel(args[0].toLowerCase());
+		}
+		
+		//Cache the command's name
+		String cmdName = commandType.getLabel();
+		
+		//Check if the player has permission
+		if(!sender.hasPermission(cmdConfig.getPermission(cmdName))) {
 			MSG.sendMessage("messages.error.permission");
 			return true;
 		}
-		else if(args.length > command.maxAllowedArgs() + 1) {
+		
+		//Check if there's more args than max allowed flor this command
+		if(args.length > cmdConfig.getMaxArgs(cmdName) + 1) {
 			MSG.sendMessage("messages.error.toomanyargs");
 			return true;
 		}
-		else {
-			//Run the specified command
-			command.onCommand(sender, args);
+		
+		//Check for not enough args
+		if(!(cmdConfig.getSubArgs(cmdName).isEmpty()) && args.length == 2) {
+			MSG.sendMessage("messages.error.notenoughargs");
 			return true;
 		}
+		
+		//Run the specified command
+		commandType.getCmd().onCommand(sender, args);
+		
+		//Reset the recipient
+		MSG.setRecipient(null);
+		return true;
 		
 	}
 

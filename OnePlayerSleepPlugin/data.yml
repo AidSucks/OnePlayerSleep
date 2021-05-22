@@ -1,4 +1,4 @@
-#OnePlayerSleep Version 2.8-1.16.5 - by Aid
+#OnePlayerSleep Version 2.9-1.16.5 - by Aid
 
 #Determines whether or not the plugin is enabled
 enabled: true
@@ -54,6 +54,8 @@ messages:
         notenoughargs: "&cNot enough arguments!"
         alreadyasleep: "&cSomeone is already asleep."
         invalidtype: "&cInvalid data type!"
+        invalidplayer: "&cInvalid player!"
+        cannotsleep: "&cYou are not allowed to sleep!"
     success:
         slept: "&a{sPlayer} slept!"
         duration: "&aDuration is currently set to: &5{duration} &aticks"
@@ -63,3 +65,5 @@ messages:
         setduration: "&aSleep duration set to: &5{duration} &aticks"
         setenabled: "&aPlugin enabled set to: &5{enabled}"
         setweather: "&aWeather change set to: &5{weather}"
+        revoke: "&aPlayer revoked!"
+        unrevoke: "&aPlayer unrevoked!"
